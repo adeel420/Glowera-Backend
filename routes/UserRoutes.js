@@ -1,7 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const User = require("../models/userModel");
-const { sendVerificationCode, welcomeCode } = require("../middleware/email");
+const { sendVerificationCode, welcomeCode } = require("../config/email");
 const { jwtAuthMiddleware, generateToken } = require("../middleware/jwt");
 const router = express.Router();
 const saltRounds = 10;
@@ -20,7 +20,7 @@ router.post("/signup", async (req, res) => {
     }
 
     const verificationCode = Math.floor(
-      100000 + Math.random() * 900000
+      100000 + Math.random() * 900000,
     ).toString();
 
     const user = new User({ name, email, password, verificationCode });

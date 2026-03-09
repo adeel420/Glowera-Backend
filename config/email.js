@@ -2,7 +2,7 @@ const {
   Verification_Email_Template,
   Welcome_Email_Template,
 } = require("../emailTemplate");
-const transporter = require("./config");
+const transporter = require("./nodemailer");
 
 const sendVerificationCode = async (email, verificationCode) => {
   try {

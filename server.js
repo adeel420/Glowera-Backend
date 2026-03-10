@@ -11,6 +11,7 @@ const userRoutes = require("./routes/UserRoutes");
 const categoryRoutes = require("./routes/CategoryRoutes");
 const productRoutes = require("./routes/ProductRoutes");
 const wishlistRoutes = require("./routes/WishlistRoutes");
+const cartRoutes = require("./routes/CartRoutes");
 
 // Packages
 app.use(cors());
@@ -24,6 +25,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/wishlist", wishlistRoutes);
+app.use("/api/cart", cartRoutes);
 
 app.listen(PORT, () => {
   console.log(`Listening the port ${PORT}`);

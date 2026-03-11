@@ -141,10 +141,10 @@ router.put("/reset-password", async (req, res) => {
       return res.status(400).json({ error: "OTP has expired" });
     }
 
-    user.password = await bcrypt.hash(newPassword, saltRounds);
+    user.password = newPassword;
     user.resetPasswordOTP = undefined;
     user.resetPasswordExpires = undefined;
-    await user.save({ validateBeforeSave: false });
+    await user.save();
 
     res.status(200).json({ message: "Password reset successful" });
   } catch (err) {

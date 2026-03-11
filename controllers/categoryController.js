@@ -9,7 +9,7 @@ exports.create = async (req, res) => {
       image = req.file.path;
     }
     const category = new Category({ name, image });
-    const response = category.save();
+    const response = await category.save();
     res.status(200).json(response);
   } catch (err) {
     console.log(err);
@@ -29,7 +29,7 @@ exports.all = async (req, res) => {
 
 exports.getById = async (req, res) => {
   try {
-    const { id } = req.params.id;
+    const { id } = req.params;
     const response = await Category.findById(id);
     res.status(200).json(response);
   } catch (err) {
@@ -40,11 +40,10 @@ exports.getById = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
-    const { id } = req.params.id;
+    const { id } = req.params;
     const data = req.body;
     if (req.file) data.image = req.file.path;
-    const category = await Category.findByIdAndUpdate(id, data, { new: true });
-    const response = await category.save();
+    const response = await Category.findByIdAndUpdate(id, data, { new: true });
     res.status(200).json(response);
   } catch (err) {
     console.log(err);
@@ -54,7 +53,7 @@ exports.update = async (req, res) => {
 
 exports.deleted = async (req, res) => {
   try {
-    const { id } = req.params.id;
+    const { id } = req.params;
     const response = await Category.findByIdAndDelete(id);
     res.status(200).json(response);
   } catch (err) {

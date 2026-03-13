@@ -163,9 +163,43 @@ router.get("/login-data", jwtAuthMiddleware, async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    res.status(200).json({ email: user.email, name: user.name });
+    res
+      .status(200)
+      .json({ email: user.email, name: user.name, role: user.role });
   } catch (err) {
     console.error("Login Data Error:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.get("/all", async (req, res) => {
+  try {
+    const response = await User.find();
+    res.status(200).json(response);
+  } catch (err) {
+    console.error("Login Data Error:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.put("/update-role/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { role } = req.body;
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { role },
+      { new: true, runValidators: true },
+    );
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.status(200).json({ message: "Role updated successfully", user });
+  } catch (err) {
+    console.error("Update Role Error:", err);
     res.status(500).json({ error: "Internal server error" });
   }
 });

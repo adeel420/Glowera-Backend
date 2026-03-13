@@ -28,6 +28,18 @@ const productSchema = new mongoose.Schema(
       ref: "Category",
       required: true,
     },
+    colors: [
+      {
+        name: {
+          type: String,
+          required: true,
+        },
+        hexCode: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
     images: [
       {
         type: String,

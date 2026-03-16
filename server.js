@@ -12,6 +12,9 @@ const categoryRoutes = require("./routes/CategoryRoutes");
 const productRoutes = require("./routes/ProductRoutes");
 const wishlistRoutes = require("./routes/WishlistRoutes");
 const cartRoutes = require("./routes/CartRoutes");
+const contactRoutes = require("./routes/ContactRoutes");
+const newsLetterRoutes = require("./routes/NewsLetterRoutes");
+const accountRoutes = require("./routes/AccountRoutes");
 
 // Packages
 app.use(cors());
@@ -26,6 +29,9 @@ app.use("/api/category", categoryRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/wishlist", wishlistRoutes);
 app.use("/api/cart", cartRoutes);
+app.use("/api/contact", contactRoutes);
+app.use("/api/newsletter", newsLetterRoutes);
+app.use("/api/account", accountRoutes);
 
 app.listen(PORT, () => {
   console.log(`Listening the port ${PORT}`);

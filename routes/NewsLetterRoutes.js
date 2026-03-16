@@ -1,13 +1,9 @@
 const express = require("express");
-const {
-  create,
-  getByUser,
-  remove,
-} = require("../controllers/wishlistController");
+const { create, all, remove } = require("../controllers/newsLetterController");
 const router = express.Router();
 
 router.post("/", create);
-router.get("/:userId", getByUser);
+router.get("/", all);
 router.delete("/", remove);
 
 module.exports = router;

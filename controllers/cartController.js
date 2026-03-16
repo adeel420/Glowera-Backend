@@ -14,20 +14,24 @@ exports.create = async (req, res) => {
     let cart = await Cart.findOne({ user });
 
     if (cart) {
-      // update existing cart
       products.forEach((newProduct) => {
         const existingProduct = cart.products.find(
-          (p) => p.product.toString() === newProduct.product,
+          (p) => p.product.toString() === newProduct.product.toString(),
         );
 
         if (existingProduct) {
           existingProduct.quantity += newProduct.quantity || 1;
         } else {
-          cart.products.push(newProduct);
+          cart.products.push({
+            product: newProduct.product,
+            quantity: newProduct.quantity || 1,
+            color: newProduct.color,
+          });
         }
       });
 
       await cart.save();
+      await cart.populate("products.product");
 
       return res.status(200).json({
         message: "Cart updated successfully",
@@ -92,6 +96,7 @@ exports.update = async (req, res) => {
     product.quantity = quantity;
 
     await cart.save();
+    await cart.populate("products.product");
 
     res.status(200).json({
       message: "Cart updated successfully",
@@ -118,6 +123,7 @@ exports.deleteProduct = async (req, res) => {
     );
 
     await cart.save();
+    await cart.populate("products.product");
 
     res.status(200).json({
       message: "Product removed from cart",

@@ -1,46 +1,62 @@
-const Product = require("../models/productModel");
-const User = require("../models/userModel");
 const Wishlist = require("../models/wishlistModel");
 
 exports.create = async (req, res) => {
   try {
     const { user, products } = req.body;
-    const userId = await User.findById(user);
-    if (!userId) {
-      return res.status(400).json({ error: "user not found" });
+
+    if (!user || !products?.length) {
+      return res.status(400).json({ error: "User and product are required" });
     }
-    const productId = await Product.findById(products);
-    if (!productId) {
-      return res.status(400).json({ error: "product not found" });
+
+    let wishlist = await Wishlist.findOne({ user });
+
+    if (wishlist) {
+      const productId = products[0].product;
+      const exists = wishlist.products.find(
+        (p) => p.product.toString() === productId
+      );
+      if (!exists) {
+        wishlist.products.push({ product: productId });
+        await wishlist.save();
+      }
+    } else {
+      wishlist = new Wishlist({ user, products });
+      await wishlist.save();
     }
-    const response = await Wishlist({
-      user: userId,
-      products: productId,
-    });
-    res.status(200).json(response);
+
+    await wishlist.populate("products.product");
+    res.status(200).json({ message: "Added to wishlist", data: wishlist });
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "Internal server error" });
   }
 };
 
-exports.all = async (req, res) => {
+exports.getByUser = async (req, res) => {
   try {
-    const response = await Wishlist.find()
-      .populate("user")
-      .populate("products");
-    res.status(200).json(response);
+    const { userId } = req.params;
+    const wishlist = await Wishlist.findOne({ user: userId }).populate("products.product");
+    res.status(200).json({ data: wishlist });
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "Internal server error" });
   }
 };
 
-exports.deleted = async (req, res) => {
+exports.remove = async (req, res) => {
   try {
-    const { id } = req.params.id;
-    const response = await Wishlist.findByIdAndDelete(id);
-    res.status(200).json(response);
+    const { userId, productId } = req.body;
+
+    const wishlist = await Wishlist.findOne({ user: userId });
+    if (!wishlist) return res.status(404).json({ error: "Wishlist not found" });
+
+    wishlist.products = wishlist.products.filter(
+      (p) => p.product.toString() !== productId
+    );
+    await wishlist.save();
+    await wishlist.populate("products.product");
+
+    res.status(200).json({ message: "Removed from wishlist", data: wishlist });
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "Internal server error" });

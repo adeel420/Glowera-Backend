@@ -402,4 +402,122 @@ const Newsletter_Subscription_Template = `
 </html>
 `;
 
-module.exports = { Verification_Email_Template, Welcome_Email_Template, Contact_User_Template, Contact_Admin_Template, Newsletter_Subscription_Template, Newsletter_Admin_Template };
+const Order_Confirmation_User_Template = `
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Order Confirmed - Glowera</title></head>
+<body style="margin:0;padding:0;background-color:#fdf2f8;font-family:Arial,sans-serif;">
+    <div style="max-width:600px;margin:30px auto;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(236,72,153,0.15);border:1px solid #fbcfe8;">
+        <div style="background:linear-gradient(135deg,#ec4899,#f43f5e);padding:35px 30px;text-align:center;">
+            <h1 style="margin:0;color:#ffffff;font-size:32px;font-weight:bold;">Glowera</h1>
+            <p style="margin:8px 0 0;color:rgba(255,255,255,0.9);font-size:14px;">Beauty & Skincare Store</p>
+        </div>
+        <div style="padding:35px 30px;">
+            <div style="text-align:center;margin-bottom:25px;">
+                <div style="font-size:56px;">✅</div>
+                <h2 style="margin:10px 0 5px;color:#be185d;font-size:24px;">Order Confirmed!</h2>
+                <p style="margin:0;color:#6b7280;font-size:15px;">Thank you <strong style="color:#374151;">{name}</strong>, your order has been placed successfully.</p>
+            </div>
+            <div style="background:#f9fafb;border-radius:10px;padding:20px;margin:20px 0;">
+                <p style="margin:0 0 12px;font-size:13px;color:#9ca3af;font-weight:bold;text-transform:uppercase;letter-spacing:1px;">Order Details</p>
+                <table style="width:100%;border-collapse:collapse;">
+                    <tr><td style="padding:7px 0;color:#6b7280;font-size:14px;width:130px;">Order ID:</td><td style="padding:7px 0;color:#374151;font-size:14px;font-weight:700;">#{orderId}</td></tr>
+                    <tr><td style="padding:7px 0;color:#6b7280;font-size:14px;">Payment:</td><td style="padding:7px 0;color:#374151;font-size:14px;font-weight:700;">{paymentMethod}</td></tr>
+                    <tr><td style="padding:7px 0;color:#6b7280;font-size:14px;">Total:</td><td style="padding:7px 0;color:#ec4899;font-size:16px;font-weight:700;">Rs {totalAmount}</td></tr>
+                    <tr><td style="padding:7px 0;color:#6b7280;font-size:14px;">Address:</td><td style="padding:7px 0;color:#374151;font-size:14px;font-weight:700;">{address}</td></tr>
+                    <tr><td style="padding:7px 0;color:#6b7280;font-size:14px;">Date:</td><td style="padding:7px 0;color:#374151;font-size:14px;font-weight:700;">{date}</td></tr>
+                </table>
+            </div>
+            <div style="background:#fdf2f8;border-left:4px solid #ec4899;border-radius:8px;padding:16px 20px;margin:20px 0;">
+                <p style="margin:0;color:#374151;font-size:14px;line-height:1.7;">We will notify you as soon as your order status is updated. For any queries, feel free to contact us.</p>
+            </div>
+        </div>
+        <div style="background:#fdf2f8;padding:20px 30px;text-align:center;border-top:1px solid #fbcfe8;">
+            <p style="margin:0 0 5px;color:#ec4899;font-weight:bold;font-size:14px;">Glowera - Beauty & Skincare</p>
+            <p style="margin:0;color:#9ca3af;font-size:12px;">&copy; ${new Date().getFullYear()} Glowera. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
+`;
+
+const Order_Confirmation_Admin_Template = `
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>New Order - Glowera Admin</title></head>
+<body style="margin:0;padding:0;background-color:#fdf2f8;font-family:Arial,sans-serif;">
+    <div style="max-width:600px;margin:30px auto;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(236,72,153,0.15);border:1px solid #fbcfe8;">
+        <div style="background:linear-gradient(135deg,#be185d,#9f1239);padding:35px 30px;text-align:center;">
+            <h1 style="margin:0;color:#ffffff;font-size:28px;font-weight:bold;">New Order Received 🛍️</h1>
+            <p style="margin:8px 0 0;color:rgba(255,255,255,0.85);font-size:14px;">A customer just placed an order on Glowera</p>
+        </div>
+        <div style="background:#fef3c7;border:1px solid #fcd34d;margin:25px 30px 0;border-radius:10px;padding:14px 18px;">
+            <p style="margin:0;color:#92400e;font-size:14px;font-weight:600;">🔔 Action Required: Process this order as soon as possible.</p>
+        </div>
+        <div style="padding:25px 30px;">
+            <h3 style="margin:0 0 15px;color:#be185d;font-size:15px;text-transform:uppercase;letter-spacing:1px;">Customer Information</h3>
+            <div style="background:#f9fafb;border-radius:10px;padding:20px;margin-bottom:20px;">
+                <table style="width:100%;border-collapse:collapse;">
+                    <tr><td style="padding:7px 0;color:#6b7280;font-size:14px;width:130px;">Name:</td><td style="padding:7px 0;color:#111827;font-size:14px;font-weight:700;">{name}</td></tr>
+                    <tr><td style="padding:7px 0;color:#6b7280;font-size:14px;">Email:</td><td style="padding:7px 0;"><a href="mailto:{email}" style="color:#ec4899;font-size:14px;font-weight:600;text-decoration:none;">{email}</a></td></tr>
+                    <tr><td style="padding:7px 0;color:#6b7280;font-size:14px;">Phone:</td><td style="padding:7px 0;"><a href="tel:{phone}" style="color:#ec4899;font-size:14px;font-weight:600;text-decoration:none;">{phone}</a></td></tr>
+                    <tr><td style="padding:7px 0;color:#6b7280;font-size:14px;">Address:</td><td style="padding:7px 0;color:#111827;font-size:14px;font-weight:700;">{address}</td></tr>
+                </table>
+            </div>
+            <h3 style="margin:0 0 15px;color:#be185d;font-size:15px;text-transform:uppercase;letter-spacing:1px;">Order Information</h3>
+            <div style="background:#f9fafb;border-radius:10px;padding:20px;">
+                <table style="width:100%;border-collapse:collapse;">
+                    <tr><td style="padding:7px 0;color:#6b7280;font-size:14px;width:130px;">Order ID:</td><td style="padding:7px 0;color:#111827;font-size:14px;font-weight:700;">#{orderId}</td></tr>
+                    <tr><td style="padding:7px 0;color:#6b7280;font-size:14px;">Payment:</td><td style="padding:7px 0;color:#111827;font-size:14px;font-weight:700;">{paymentMethod}</td></tr>
+                    <tr><td style="padding:7px 0;color:#6b7280;font-size:14px;">Total:</td><td style="padding:7px 0;color:#ec4899;font-size:16px;font-weight:700;">Rs {totalAmount}</td></tr>
+                    <tr><td style="padding:7px 0;color:#6b7280;font-size:14px;">Date:</td><td style="padding:7px 0;color:#111827;font-size:14px;font-weight:700;">{date}</td></tr>
+                </table>
+            </div>
+        </div>
+        <div style="background:#fdf2f8;padding:20px 30px;text-align:center;border-top:1px solid #fbcfe8;">
+            <p style="margin:0 0 5px;color:#ec4899;font-weight:bold;font-size:14px;">Glowera Admin Panel</p>
+            <p style="margin:0;color:#9ca3af;font-size:12px;">This is an automated notification. &copy; ${new Date().getFullYear()} Glowera.</p>
+        </div>
+    </div>
+</body>
+</html>
+`;
+
+const Order_Status_Update_Template = `
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Order Status Update - Glowera</title></head>
+<body style="margin:0;padding:0;background-color:#fdf2f8;font-family:Arial,sans-serif;">
+    <div style="max-width:600px;margin:30px auto;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(236,72,153,0.15);border:1px solid #fbcfe8;">
+        <div style="background:linear-gradient(135deg,#ec4899,#f43f5e);padding:35px 30px;text-align:center;">
+            <h1 style="margin:0;color:#ffffff;font-size:32px;font-weight:bold;">Glowera</h1>
+            <p style="margin:8px 0 0;color:rgba(255,255,255,0.9);font-size:14px;">Beauty & Skincare Store</p>
+        </div>
+        <div style="padding:35px 30px;">
+            <div style="text-align:center;margin-bottom:25px;">
+                <div style="font-size:56px;">📦</div>
+                <h2 style="margin:10px 0 5px;color:#be185d;font-size:24px;">Order Status Updated</h2>
+                <p style="margin:0;color:#6b7280;font-size:15px;">Hello <strong style="color:#374151;">{name}</strong>, your order status has been updated.</p>
+            </div>
+            <div style="background:#fdf2f8;border-radius:14px;padding:25px;text-align:center;margin:20px 0;">
+                <p style="margin:0 0 10px;font-size:13px;color:#9ca3af;font-weight:bold;text-transform:uppercase;letter-spacing:1px;">Current Status</p>
+                <span style="display:inline-block;background:linear-gradient(135deg,#ec4899,#f43f5e);color:#ffffff;padding:10px 30px;border-radius:50px;font-size:18px;font-weight:bold;">{status}</span>
+            </div>
+            <div style="background:#f9fafb;border-radius:10px;padding:20px;">
+                <table style="width:100%;border-collapse:collapse;">
+                    <tr><td style="padding:7px 0;color:#6b7280;font-size:14px;width:130px;">Order ID:</td><td style="padding:7px 0;color:#374151;font-size:14px;font-weight:700;">#{orderId}</td></tr>
+                    <tr><td style="padding:7px 0;color:#6b7280;font-size:14px;">Updated On:</td><td style="padding:7px 0;color:#374151;font-size:14px;font-weight:700;">{date}</td></tr>
+                </table>
+            </div>
+            <p style="margin:20px 0 0;color:#6b7280;font-size:14px;line-height:1.7;text-align:center;">Thank you for shopping with <strong style="color:#ec4899;">Glowera</strong>! 💖</p>
+        </div>
+        <div style="background:#fdf2f8;padding:20px 30px;text-align:center;border-top:1px solid #fbcfe8;">
+            <p style="margin:0 0 5px;color:#ec4899;font-weight:bold;font-size:14px;">Glowera - Beauty & Skincare</p>
+            <p style="margin:0;color:#9ca3af;font-size:12px;">&copy; ${new Date().getFullYear()} Glowera. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
+`;
+
+module.exports = { Verification_Email_Template, Welcome_Email_Template, Contact_User_Template, Contact_Admin_Template, Newsletter_Subscription_Template, Newsletter_Admin_Template, Order_Confirmation_User_Template, Order_Confirmation_Admin_Template, Order_Status_Update_Template };

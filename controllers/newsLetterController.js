@@ -60,7 +60,8 @@ exports.all = async (req, res) => {
 
 exports.remove = async (req, res) => {
   try {
-    await NewsLetter.findByIdAndDelete(req.params.id);
+    const id = req.params.id || req.body.id;
+    await NewsLetter.findByIdAndDelete(id);
     res.status(200).json({ message: "Subscriber removed successfully" });
   } catch (err) {
     console.log(err);
